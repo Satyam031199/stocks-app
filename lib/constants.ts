@@ -55,6 +55,17 @@ export const MARKET_OVERVIEW_WIDGET_CONFIG = {
     symbolActiveColor: 'rgba(15, 237, 190, 0.05)', // highlight color for active symbol
     tabs: [
         {
+            title: 'Technology',
+            symbols: [
+                { s: 'NASDAQ:META', d: 'Meta Platforms' },
+                { s: 'NASDAQ:AVGO', d: 'Broadcom' },
+                { s: 'NASDAQ:TSLA', d: 'Tesla Inc' },
+                { s: 'NASDAQ:NVDA', d: 'Nvidia' },
+                { s: 'NYSE:ORCL', d: 'Oracle Corp' },
+                { s: 'NASDAQ:INTC', d: 'Intel Corp' },
+            ],
+        },
+        {
             title: 'Financial',
             symbols: [
                 { s: 'NYSE:JPM', d: 'JPMorgan Chase' },
@@ -63,17 +74,6 @@ export const MARKET_OVERVIEW_WIDGET_CONFIG = {
                 { s: 'NYSE:HSBC', d: 'Hsbc Hldgs Plc' },
                 { s: 'NYSE:C', d: 'Citigroup Inc' },
                 { s: 'NYSE:MA', d: 'Mastercard Incorporated' },
-            ],
-        },
-        {
-            title: 'Technology',
-            symbols: [
-                { s: 'NASDAQ:AAPL', d: 'Apple' },
-                { s: 'NASDAQ:GOOGL', d: 'Alphabet' },
-                { s: 'NASDAQ:MSFT', d: 'Microsoft' },
-                { s: 'NASDAQ:FB', d: 'Meta Platforms' },
-                { s: 'NYSE:ORCL', d: 'Oracle Corp' },
-                { s: 'NASDAQ:INTC', d: 'Intel Corp' },
             ],
         },
         {
