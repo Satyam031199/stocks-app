@@ -10,10 +10,14 @@ export const getAuth = async () => {
     const mongoose = await connectToDB();
     const db = mongoose.connection.db;
     if(!db) throw new Error('Database connection failed');
+    const secret = process.env.BETTER_AUTH_SECRET;
+    if (!secret) throw new Error('BETTER_AUTH_SECRET environment variable is required');
+    const baseURL = process.env.BETTER_AUTH_URL;
+    if (!baseURL) throw new Error('BETTER_AUTH_URL environment variable is required');
     authInstance = betterAuth({
         database: mongodbAdapter(db as any),
-        secret: process.env.BETTER_AUTH_SECRET,
-        baseURL: process.env.BETTER_AUTH_URL,
+        secret,
+        baseURL,
         emailAndPassword: {
             enabled: true,
             disableSignUp: false,
