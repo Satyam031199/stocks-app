@@ -35,7 +35,7 @@ const Page = () => {
             const result = await signUpWithEmail(data);
             if(result.success){
                 toast.success('Sign up successful',{
-                    description: 'You have successfully signed in to your account',
+                    description: 'You have successfully created an account',
                 });
                 router.push('/');
             }else{
