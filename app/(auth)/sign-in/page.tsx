@@ -4,8 +4,13 @@ import {useForm, SubmitHandler} from "react-hook-form"
 import {Button} from "@/components/ui/button";
 import InputField from "@/components/forms/InputField";
 import FooterLink from "@/components/forms/FooterLink";
+import {toast} from "sonner";
+import {signInWithEmail} from "@/lib/actions/auth.actions";
+import {router} from "next/client";
+import {useRouter} from "next/navigation";
 
 const Page = () => {
+    const router = useRouter();
     const {
         register,
         handleSubmit,
@@ -19,9 +24,23 @@ const Page = () => {
     })
     const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
         try {
-            console.log(data);
+            const result = await signInWithEmail(data);
+            console.log(result);
+            if(result.success) {
+                toast.success('Sign in successful',{
+                    description: 'You have successfully logged in to your account',
+                });
+                router.push('/');
+            }else{
+                toast.error('Sign in failed',{
+                    description: result.error
+                })
+            }
         } catch (err) {
             console.log(err);
+            toast.error('Sign in failed',{
+                description: err instanceof Error ? err.message : 'An unexpected error occurred',
+            });
         }
     }
     return (
@@ -45,7 +64,7 @@ const Page = () => {
                     type='password'
                     register={register}
                     error={errors.password}
-                    validation={{required: 'Password is required', minLength: 8}}/>
+                    validation={{required: 'Password is required', minLength: {value: 8, message: 'Password must be at least 8 characters long'}}}/>
                 <Button type='submit' disabled={isSubmitting} className='yellow-btn w-full mt-5'>
                     {isSubmitting ? 'Logging In...' : 'Log In'}
                 </Button>

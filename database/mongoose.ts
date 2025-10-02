@@ -28,4 +28,5 @@ export const connectToDB = async () => {
         throw error;
     }
     console.log(`Connected to database in ${process.env.NODE_ENV} mode`);
+    return cached.conn;
 }

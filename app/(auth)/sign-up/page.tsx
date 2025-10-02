@@ -7,8 +7,12 @@ import SelectField from "@/components/forms/SelectField";
 import {INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS} from "@/lib/constants";
 import {CountrySelectField} from "@/components/forms/CountrySelectField";
 import FooterLink from "@/components/forms/FooterLink";
+import {signUpWithEmail} from "@/lib/actions/auth.actions";
+import {useRouter} from "next/navigation";
+import {toast} from "sonner";
 
 const Page = () => {
+    const router = useRouter();
     const {
         register,
         handleSubmit,
@@ -28,9 +32,22 @@ const Page = () => {
     })
     const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
         try {
-            console.log(data);
+            const result = await signUpWithEmail(data);
+            if(result.success){
+                toast.success('Sign up successful',{
+                    description: 'You have successfully signed in to your account',
+                });
+                router.push('/');
+            }else{
+                toast.error('Sign up failed',{
+                    description: result.error
+                });
+            }
         } catch (err) {
             console.log(err);
+            toast.error('Sign up failed',{
+                description: err instanceof Error ? err.message : 'An unexpected error occurred',
+            });
         }
     }
     return (
@@ -46,7 +63,7 @@ const Page = () => {
                     placeholder='John Doe'
                     register={register}
                     error={errors.fullName}
-                    validation={{required: 'Full name is required', minLength: 2}}/>
+                    validation={{required: 'Full name is required', minLength: {value: 3, message: 'Full name must be at least 3 characters long' }}}/>
                 <InputField
                     name='email'
                     label='Email'
@@ -61,7 +78,7 @@ const Page = () => {
                     type='password'
                     register={register}
                     error={errors.password}
-                    validation={{required: 'Password is required', minLength: 8}}/>
+                    validation={{required: 'Password is required', minLength: {value: 8, message: 'Password must be at least 8 characters long'}}}/>
                 <CountrySelectField
                     name="country"
                     label="Country"
