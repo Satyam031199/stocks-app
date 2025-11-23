@@ -178,3 +178,20 @@ export const searchStocks = cache(async (query?: string): Promise<StockWithWatch
         return [];
     }
 });
+
+export const getGeneralMarketNews = async (): Promise<MarketNewsArticle[]> => {
+    try {
+        const token = process.env.FINNHUB_API_KEY ?? NEXT_PUBLIC_FINNHUB_API_KEY;
+        if (!token) {
+            console.error('Error in stock search:', new Error('FINNHUB API key is not configured'));
+            return [];
+        }
+        const url = `${FINNHUB_BASE_URL}/news?category=general&token=${token}`;
+        const data = await fetchJSON<RawNewsArticle[]>(url, 1800);
+        const formatted = data.slice(0, 6).map((a, idx) => formatArticle(a, false, undefined, idx));
+        return formatted;
+    } catch (err) {
+        console.error('Error in stock search:', err);
+        return [];
+    }
+}
